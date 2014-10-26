@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>主题 - 添加或编辑</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/dashboard.css') }}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="{{ url_for('static', filename='js/html5shiv.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/respond.min.js') }}"></script>
+    <![endif]-->
+    
+    <!-- umeditor -->
+    <link href="{{ url_for('static', filename='umeditor/themes/default/css/umeditor.min.css') }}" type="text/css" rel="stylesheet">
+    <script src="{{ url_for('static', filename='umeditor/third-party/jquery.min.js') }}"></script> 
+
+    <!--  <script src="js/jquery.min.js"></script> -->
+    <!-- umeditor -->
+    <script src="{{ url_for('static', filename='umeditor/umeditor.config.js') }}"></script> 
+    <script src="{{ url_for('static', filename='umeditor/umeditor.min.js') }}"></script> 
+    <script src="{{ url_for('static', filename='umeditor/lang/zh-cn/zh-cn.js') }}"></script>  
+
+    <style>
+      #item-count-grid {
+        text-align: center;
+        margin-top: 50px;
+      }
+      .item-count {
+        display: block;
+        font-size: 30px;
+        margin-top: 30px;
+      }
+    </style>
+    
+  </head>
+
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">万象街 - 管理后台</a>
+        </div>
+        
+      </div>
+    </div>
+
+    <div class="container-fluid">
+
+      <div class="row">
+        {% include 'user-panel/menu.html' %}
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          {% for message in get_flashed_messages() %}
+          <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+          </div>
+          {% endfor %}
+          <h1 class="page-header">{% if topic %}编辑{% else %}添加{% endif %}主题</h1>
+          <form role="form" method="post">
+            <input type="hidden" name="id" value="{% if topic %}{{ topic.id }}{% else %}0{% endif %}">
+            <div class="form-group">
+              <label for="topic-name">主题名称</label>
+              <input type="text" class="form-control" id="topic-name" name="topic-name" placeholder="请输入主题名称" value="{% if topic %}{{ topic.topic_name }}{% endif %}" style="width: 200px;">
+            </div>
+            <div class="form-group">
+              <label for="topic-alias">二级域名</label>
+              <input type="text" class="form-control" id="topic-alias" name="topic-alias" placeholder="请输入二级域名" value="{% if topic %}{{ topic.topic_alias }}{% endif %}" style="width: 200px;">
+            </div>
+            <div class="form-group">
+              <label for="topic-keywords">关键字</label>
+              <input type="text" class="form-control" id="topic-keywords" name="topic-keywords" placeholder="请输入关键字" value="{% if topic %}{{ topic.topic_keywords }}{% endif %}">
+            </div>
+            <div class="form-group">
+              <label for="topic-desc">描述</label>
+              <script type="text/plain" id="container" name="topic-desc" style="width:100%;height:200px;">{% if topic %}{{ topic.topic_desc|safe }}{% endif %}</script>
+            </div>
+            <button type="submit" class="btn btn-default">提交</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/docs.min.js') }}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="{{ url_for('static', filename='js/ie10-viewport-bug-workaround.js') }}"></script>
+
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+      var um = UM.getEditor('container');
+    </script>
+
+  </body>
+</html>

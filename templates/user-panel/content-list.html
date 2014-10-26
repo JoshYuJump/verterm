@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>内容</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/dashboard.css') }}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="{{ url_for('static', filename='js/html5shiv.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/respond.min.js') }}"></script>
+    <![endif]-->
+    
+    <style>
+       .page-header input {
+         float: right;
+       }
+       .operate a {
+         margin-right: 15px;
+       }
+    </style>
+    
+  </head>
+
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">万象街 - 管理后台</a>
+        </div>
+        
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        {% include 'user-panel/menu.html' %}
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          {% for message in get_flashed_messages() %}
+          <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+          </div>
+          {% endfor %}
+          <h1 class="page-header">
+            <div class="row">
+              <div class="col-md-6">
+              内容
+              </div>
+              <div class="col-md-6" style="text-align: right;">
+                <a href="content-edit">
+                <button type="button" class="btn btn-default btn-lg">
+                  <span class="glyphicon glyphicon-plus"></span> 添加
+                </button>
+                </a>
+              </div>
+            
+          </h1>
+          
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>标题</th>
+                  <th>所属主题</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for content in contents %}
+                <tr>
+                  <td>{{ content.id }}</td>
+                  <td>{{ content.content_name }}</td>
+                  <td>{{ content.content_topic.topic_name }}</td>
+                  <td>
+                    <div class="operate">
+                      <a href="content-edit?id={{ content.id }}">编辑</a>
+                      <a href="content-delete?id={{ content.id }}">删除</a> 
+                    </div>                     
+                  </td>
+                </tr>
+                {% endfor %}
+                
+                
+              </tbody>
+            </table>
+            <div style="text-align: center;">
+              <ul class="pagination">
+                {% if pagination.has_prev %}
+                <li><a href="?page={{ pagination.prev_num }}">&laquo;上一页</a></li>
+                {% endif %}
+                <li><a href="">Page {{ pagination.page }} of {{ pagination.pages }}.</a></li>
+                {% if pagination.has_next %} 
+                <li><a href="?page={{ pagination.next_num }}">下一页&raquo;</a></li>
+                {% endif %} 
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/docs.min.js') }}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="{{ url_for('static', filename='js/ie10-viewport-bug-workaround.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>万象街 - 首页</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="{{ url_for('static', filename='js/html5shiv.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/respond.min.js') }}"></script>
+    <![endif]-->
+    <style>
+    body { padding-top: 70px; }
+    
+    .container-fluid {
+      padding:0px 10px 10px;
+    }
+    .box {
+      margin-bottom: 20px;
+      float: left;
+      width: 220px;
+      padding: 20px;
+      border: 1px solid #CCC;
+      box-shadow: 3px 3px 2px #E5E5E5;
+    }
+    .box:hover {
+      border: 1px solid #5cb85c;
+    }
+    .box img {
+      max-width: 100%;
+    }
+    .box-text {
+      margin-top: 20px;
+      border-top: 1px dashed #ccc;
+      padding: 5px;
+    }
+    .topics a {
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+    .panel-body p { height: 20px; overflow: hidden;}
+    </style>
+  </head>
+
+  <body>
+  
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">万象街 - 网络万象，总有你精彩！</a>
+        </div>
+    
+        
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="container">
+      
+      <div class="row">
+      
+        <div class="col-md-8">
+          <div id="masonry" class="container-fluid">
+            {% for taoke in taokes %}
+            <a href="{{ taoke.taoke_link }}"><div class="box"><img src="{{ taoke.taoke_image }}"><div class="box-text">{{ taoke.taoke_title }}</div></div></a>
+            {% endfor %}            
+          </div>
+        </div>
+        <div class="col-md-4">
+        
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">主题</h3>
+            </div>
+            <div class="panel-body topics">
+              {% for topic in topics %}
+              <a href="http://{{ topic.topic_alias }}.verterm.com"><span class="label">{{ topic.topic_name }}</span></a>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">内容</h3>
+            </div>
+            <div class="panel-body">
+              {% for content in contents %}
+              <p><span>{{ content.content_datetime.strftime('%Y-%m-%d') }}</span> <a href="content/{{ content.id }}">{{ content.content_name }}</a></p>
+              {% endfor %}
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+    
+    <div class="container">  
+      
+      <div class="footer">
+        <p>&copy; 2014</p>
+      </div>
+
+    </div> <!-- /container -->
+    
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/masonry.pkgd.min.js') }}"></script>
+    
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="{{ url_for('static', filename='js/ie10-viewport-bug-workaround.js') }}"></script>
+    <script>
+      $(function(){
+        var $container = $('#masonry');
+        // initialize
+        $container.masonry({
+          columnWidth: 240,
+          itemSelector: '.box'
+        });
+      });
+      // labels' color
+      $('.topics .label').each(function(){
+        var colorClass = [
+                          'label-default',
+                          'label-primary',
+                          'label-success',
+                          'label-info',
+                          'label-warning',
+                          'label-danger'
+                        ];
+        var index = parseInt((5 - 0 + 1) * Math.random() + 0);
+        $(this).addClass(colorClass[index])                        
+      })
+    </script>
+  </body>
+</html>

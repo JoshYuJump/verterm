@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>概况</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/dashboard.css') }}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="{{ url_for('static', filename='js/html5shiv.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/respond.min.js') }}"></script>
+    <![endif]-->
+    
+    <style>
+      #item-count-grid {
+        text-align: center;
+        margin-top: 50px;
+      }
+      .item-count {
+        display: block;
+        font-size: 30px;
+        margin-top: 30px;
+      }
+    </style>
+    
+  </head>
+
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">万象街 - 管理后台</a>
+        </div>
+        
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        {% include 'user-panel/menu.html' %}
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          {% for message in get_flashed_messages() %}
+          <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+          </div>
+          {% endfor %}
+          <h1 class="page-header">概况</h1>
+          <div class="row" id="item-count-grid">
+            <div class="col-md-4">
+              <button type="button" class="btn btn-default btn-lg">
+                <span class="glyphicon glyphicon-tasks"></span> 主题
+              </button>
+              <br>
+              <span class="item-count">15</span>
+            </div>
+            <div class="col-md-4">
+              <button type="button" class="btn btn-default btn-lg">
+                <span class="glyphicon glyphicon-comment"></span> 内容
+              </button>
+              <br>
+              <span class="item-count">15</span>
+            </div>
+            <div class="col-md-4">
+              <button type="button" class="btn btn-default btn-lg">
+                <span class="glyphicon glyphicon-signal"></span> 流量
+              </button>
+              <br>
+              <span class="item-count">15</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/docs.min.js') }}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="{{ url_for('static', filename='js/ie10-viewport-bug-workaround.js') }}"></script>
+  </body>
+</html>

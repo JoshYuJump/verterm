@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ topic.topic_keywords }}">
+    <meta name="keywords" content="{{ topic.topic_keywords }}">
+    <meta name="author" content="">
+
+    <title>{{ topic.topic_name }}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/jumbotron-narrow.css') }}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="{{ url_for('static', filename='js/html5shiv.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/respond.min.js') }}"></script>
+    <![endif]-->
+    <style type="text/css">
+      .pic-box { background: #FFF; padding: 5px; border: 1px solid #E3E3E3}
+      .pic-box img { width: 180px;}
+      .jumbotron .row { margin: 30px 0 50px;}
+      .btn-verterm {cursor: pointer;}
+    </style>
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <h3 class="text-muted">{{ topic.topic_name }}</h3>
+      </div>
+
+
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            {% for keyword in keywords %}
+            <a href="#"><span class="label label-success">{{ keyword }}</span></a>
+            {% endfor %}
+          </h3>
+        </div>
+        <div class="panel-body">
+          {{ topic.topic_desc|safe }}
+        </div>
+      </div>
+
+      <div class="jumbotron">
+
+        {% for taoke in taokes %}
+        <div class="row data-verterm" data="{{ taoke.taoke_link }}">
+          <div class="col-md-5">
+            <div class="pic-box">
+              <img class="btn-verterm" src="{{ taoke.taoke_image }}_200x200.jpg">
+            </div>
+          </div>
+          <div class="col-md-7">
+            <p class="lead btn-verterm">{{ taoke.taoke_title }}</p>
+            <p><a class="btn btn-lg btn-success btn-verterm" role="button">点我查看</a></p>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+
+      <div class="row marketing">
+        <div class="col-lg-6">
+          {% for content in contents %}
+          <h4><a href="/content/{{ content.id }}">{{ content.content_name }}</a></h4>
+          <div>{{ content.content_content|striptags|truncate(800) }}</div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>&copy; 2014</p>
+      </div>
+
+    </div> <!-- /container -->
+
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="{{ url_for('static', filename='js/ie10-viewport-bug-workaround.js') }}"></script>
+    <script>
+    $(function(){
+      $('.btn-verterm').click(function(){
+        var data = $(this).parents().find('.data-verterm').attr('data');
+        location.href = data;
+      })
+    })  
+    </script>
+  </body>
+</html>
