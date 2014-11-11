@@ -10,15 +10,14 @@ from sqlalchemy.sql.expression import func
 from flask.ext.migrate import Migrate, MigrateCommand
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin, LoginManager, login_required, login_user
-
+from config import *
 
 app = Flask(__name__)
 app.debug = True
-app.config['SERVER_NAME'] = 'verterm.com'
+app.config['SERVER_NAME'] = APP_SERVER_NAME
 app.config['SECRET_KEY'] = \
     '\xba[\xdb9\xeb\xc8\xf6C\x11\xf5\r\xcb\x96\r/\x9cxf>\xc8|\x82$\xb5'
-app.config['SQLALCHEMY_DATABASE_URI'] = \
-    'mysql://root:123@127.0.0.1/verterm'
+app.config['SQLALCHEMY_DATABASE_URI'] = APP_DATABASE_URI
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 
 
@@ -105,14 +104,20 @@ def load_user(user_id):
 
 
 # --- main site views ---
+@app.route('/')
+def index_alias():
+    return redirect('http://www.' + APP_SERVER_NAME, code=302)
+
 @app.route('/', subdomain="<var>", methods=['GET'])
 def index(var):
     if var != 'www':
         return topic(var)
-    taokes = Taoke.query.order_by('id desc').limit(50)
+    page = int(request.args.get('page', '1'))
+    paginate = Taoke.query.paginate(page, 30, False)
+    taokes = paginate.items
     topics = Topic.query.order_by('id desc').limit(20)
     contents = Content.query.order_by('id desc').limit(20)
-    return render_template('main/index.html', taokes=taokes, topics=topics, contents=contents)
+    return render_template('main/index.html', pagination=paginate, taokes=taokes, topics=topics, contents=contents)
 
 @app.route('/content/<int:content_id>', subdomain="<var>", methods=['GET'])
 def sub(content_id, var):

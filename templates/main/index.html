@@ -74,6 +74,17 @@
             <a href="{{ taoke.taoke_link }}"><div class="box"><img src="{{ taoke.taoke_image }}"><div class="box-text">{{ taoke.taoke_title }}</div></div></a>
             {% endfor %}            
           </div>
+          <div style="text-align: center;">
+            <ul class="pagination">
+              {% if pagination.has_prev %}
+              <li><a href="?page={{ pagination.prev_num }}">&laquo;上一页</a></li>
+              {% endif %}
+              <li><a href="">Page {{ pagination.page }} of {{ pagination.pages }}.</a></li>
+              {% if pagination.has_next %} 
+              <li><a href="?page={{ pagination.next_num }}">下一页&raquo;</a></li>
+              {% endif %} 
+            </ul>
+          </div>
         </div>
         <div class="col-md-4">
         
@@ -93,7 +104,7 @@
             </div>
             <div class="panel-body">
               {% for content in contents %}
-              <p><span>{{ content.content_datetime.strftime('%Y-%m-%d') }}</span> <a href="content/{{ content.id }}">{{ content.content_name }}</a></p>
+              <p><span>{{ content.content_datetime.strftime('%Y-%m-%d') }}</span> <a href="http://{{ content.content_topic.topic_alias }}.verterm.com/content/{{ content.id }}">{{ content.content_name }}</a></p>
               {% endfor %}
             </div>
           </div>
